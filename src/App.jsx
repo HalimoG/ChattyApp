@@ -11,11 +11,25 @@ export
 
 class App extends Component {
 
-  constructor(props) {
-    super(props);
+  constructor() {
+    super();
     // this is the *only* time you should assign directly to state:
-    this.state = {loading: true};
-  }
+    this.state = {
+      loading: true,
+      currentUser: {name: "Bob"}, 
+      messages: [
+                  {
+                         username: "Bob",
+                         content: "Has anyone seen my marbles?",
+                        },
+                        {
+                          username: "Anonymous",
+                          content: "No, I think you lost them. You lost your marbles Bob. You lost them for good."
+                        }
+                      ]
+                    }
+                  }
+  
   componentDidMount() {
     // After 3 seconds, set `loading` to false in the state.
     setTimeout(() => {
@@ -27,14 +41,14 @@ class App extends Component {
     if (this.state.loading){
       return <h1>Loading...</h1>
     } else {
-    return (
-    <div>
-    <NavBar/>
-    <Message/>
-    <ChatBar/>
-    </div>
-    );
-    }
+      return (
+      <div>
+      <NavBar/>
+      <Message/>
+      <ChatBar currentUser= {this.state.currentUser.name}/>
+      </div>
+      );
+      }
   }
 }
 export default App;
