@@ -2,6 +2,7 @@ import React, {Component} from 'react';
 import NavBar from "./NavBar.jsx";
 import ChatBar from "./ChatBar.jsx";
 import MessageList from "./MessageList.jsx";
+import { generateRandomId } from './utl.js';
 
 class App extends Component {
 
@@ -26,6 +27,8 @@ class App extends Component {
                     }
                   }
   
+    
+                  
   componentDidMount() {
    
     console.log("componentDidMount <App />");
@@ -39,13 +42,28 @@ class App extends Component {
   }, 2000);
   }
   
+  addMessage = (event) =>{
+
+    if (event.key === "Enter"){
+      let messages = this.state.messages
+       const newMessage = {
+        username: event.target.previousSibling.value,
+        content: event.target.value
+       }
+       messages.push(newMessage)
+       console.log(messages)
+       this.setState(messages);
+       event.target.value = "";
+      }
+  }
+
   render() {
    
       return (
       <div>
       <NavBar/>
       <MessageList messages = {this.state.messages}/>
-      <ChatBar currentUser= {this.state.currentUser.name}/>
+      <ChatBar addMessage= {this.addMessage} currentUser= {this.state.currentUser.name}/>
       </div>
       );
       
