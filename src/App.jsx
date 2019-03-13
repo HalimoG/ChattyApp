@@ -30,9 +30,9 @@ class App extends Component {
 
   socket = new WebSocket('ws://localhost:3001')
   componentDidMount() {
-    this.socket.onopen = () => {
-      console.log('server connected')
-    }
+  this.socket.onopen = () =>{
+    console.log('server connected')
+  }
   
     console.log("componentDidMount <App />");
     setTimeout(() => {
@@ -52,6 +52,7 @@ class App extends Component {
         content: event.target.value
        }
        messages.push(newMessage)
+       this.socket.send(JSON.stringify(newMessage));
        this.setState(messages);
        event.target.value = "";
       }
