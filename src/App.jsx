@@ -6,6 +6,7 @@ import { generateRandomId } from './utl.js';
 
 class App extends Component {
 
+
   constructor() {
     super();
     // this is the *only* time you should assign directly to state:
@@ -25,19 +26,19 @@ class App extends Component {
                         }
                       ]
                     }
-                  }
-  
-    
-                  
+                  }    
+
+  socket = new WebSocket('ws://localhost:3001')
   componentDidMount() {
-   
+    this.socket.onopen = () => {
+      console.log('server connected')
+    }
+  
     console.log("componentDidMount <App />");
     setTimeout(() => {
       console.log("Simulating incoming message");
       const newMessage = {id: 3, username: "Michelle", content: "Hello there!"};
       const messages = this.state.messages.concat(newMessage)
-  
-      console.log(messages)
       this.setState({messages: messages})
   }, 2000);
   }
@@ -51,7 +52,6 @@ class App extends Component {
         content: event.target.value
        }
        messages.push(newMessage)
-       console.log(messages)
        this.setState(messages);
        event.target.value = "";
       }
