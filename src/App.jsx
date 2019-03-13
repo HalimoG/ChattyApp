@@ -1,13 +1,7 @@
 import React, {Component} from 'react';
 import NavBar from "./NavBar.jsx";
 import ChatBar from "./ChatBar.jsx";
-import Message from "./Message.jsx";
-
-
-export 
-
-
-
+import MessageList from "./MessageList.jsx";
 
 class App extends Component {
 
@@ -21,34 +15,40 @@ class App extends Component {
                   {
                          username: "Bob",
                          content: "Has anyone seen my marbles?",
+                         id: 11
                         },
                         {
                           username: "Anonymous",
-                          content: "No, I think you lost them. You lost your marbles Bob. You lost them for good."
+                          content: "No, I think you lost them. You lost your marbles Bob. You lost them for good.",
+                          id: 12
                         }
                       ]
                     }
                   }
   
   componentDidMount() {
-    // After 3 seconds, set `loading` to false in the state.
+   
+    console.log("componentDidMount <App />");
     setTimeout(() => {
-      this.setState({loading: false}); // this triggers a re-render!
-    }, 3000)
+      console.log("Simulating incoming message");
+      const newMessage = {id: 3, username: "Michelle", content: "Hello there!"};
+      const messages = this.state.messages.concat(newMessage)
+  
+      console.log(messages)
+      this.setState({messages: messages})
+  }, 2000);
   }
   
   render() {
-    if (this.state.loading){
-      return <h1>Loading...</h1>
-    } else {
+   
       return (
       <div>
       <NavBar/>
-      <Message/>
+      <MessageList messages = {this.state.messages}/>
       <ChatBar currentUser= {this.state.currentUser.name}/>
       </div>
       );
-      }
+      
   }
 }
 export default App;
