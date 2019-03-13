@@ -46,19 +46,17 @@ class App extends Component {
 
 
     console.log("componentDidMount <App />");
-    setTimeout(() => {
-      console.log("Simulating incoming message");
-      const newMessage = {id: 3, username: "Michelle", content: "Hello there!"};
-      const messages = this.state.messages.concat(newMessage)
-      this.setState({messages: messages})
-  }, 2000);
+
   }
   
   addMessage = (event) =>{
 
     if (event.key === "Enter"){
       let messages = this.state.messages
-       const newMessage = {
+      const newUser = event.target.previousSibling.value
+      const newUserName = {name:newUser}
+      this.setState({currentUser: newUserName})
+      const newMessage = {
         username: event.target.previousSibling.value,
         content: event.target.value,
        }
