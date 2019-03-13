@@ -1,7 +1,6 @@
 import React, {Component} from 'react';
 import {generateRandomId} from './utl';
 function Message(prop) {
-  console.log(prop.message)
   return ( 
     <div>
       <div className="message">

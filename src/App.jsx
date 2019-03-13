@@ -4,6 +4,8 @@ import ChatBar from "./ChatBar.jsx";
 import MessageList from "./MessageList.jsx";
 import { generateRandomId } from './utl.js';
 
+
+
 class App extends Component {
 
 
@@ -33,7 +35,16 @@ class App extends Component {
   this.socket.onopen = () =>{
     console.log('server connected')
   }
+  this.socket.addEventListener('message', (event) => {
+    console.log('message recieved...')
+    let message = JSON.parse(event.data)
   
+    this.setState({ messages: [...this.state.messages, message] })
+
+  
+  });
+
+
     console.log("componentDidMount <App />");
     setTimeout(() => {
       console.log("Simulating incoming message");
@@ -49,11 +60,9 @@ class App extends Component {
       let messages = this.state.messages
        const newMessage = {
         username: event.target.previousSibling.value,
-        content: event.target.value
+        content: event.target.value,
        }
-       messages.push(newMessage)
        this.socket.send(JSON.stringify(newMessage));
-       this.setState(messages);
        event.target.value = "";
       }
   }
