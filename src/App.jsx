@@ -2,7 +2,7 @@ import React, {Component} from 'react';
 import NavBar from "./NavBar.jsx";
 import ChatBar from "./ChatBar.jsx";
 import MessageList from "./MessageList.jsx";
-import { generateRandomId } from './utl.js';
+
 
 
 
@@ -14,19 +14,8 @@ class App extends Component {
     // this is the *only* time you should assign directly to state:
     this.state = {
       loading: true,
-      currentUser: {name: "Bob"}, 
-      messages: [
-                  {
-                         username: "Bob",
-                         content: "Has anyone seen my marbles?",
-                         id: 11
-                        },
-                        {
-                          username: "Anonymous",
-                          content: "No, I think you lost them. You lost your marbles Bob. You lost them for good.",
-                          id: 12
-                        }
-                      ]
+      currentUser: {name: "Anonymous"}, 
+      messages: []
                     }
                   }    
 
@@ -36,12 +25,10 @@ class App extends Component {
     console.log('server connected')
   }
   this.socket.addEventListener('message', (event) => {
-    console.log('message recieved...')
     let message = JSON.parse(event.data)
-  
+    console.log('received message...', message);
     this.setState({ messages: [...this.state.messages, message] })
 
-  
   });
 
 
@@ -49,15 +36,26 @@ class App extends Component {
 
   }
   
+  changeUser = (event) =>{
+      const oldUser = this.state.currentUser.name
+      const newUser = event.target.value
+      const newUserName = {name:newUser}
+      this.setState({currentUser: newUserName})
+      const newNotification = {
+        type: "postNotification",
+        content: `${oldUser} has changed their name to ${newUser}`
+      }
+      this.socket.send(JSON.stringify(newNotification));
+  }
   addMessage = (event) =>{
 
     if (event.key === "Enter"){
       let messages = this.state.messages
-      const newUser = event.target.previousSibling.value
+      const newUser = event.target.value
       const newUserName = {name:newUser}
-      this.setState({currentUser: newUserName})
       const newMessage = {
-        username: event.target.previousSibling.value,
+        type:"postMessage",
+        username: this.state.currentUser.name,
         content: event.target.value,
        }
        this.socket.send(JSON.stringify(newMessage));
@@ -71,7 +69,7 @@ class App extends Component {
       <div>
       <NavBar/>
       <MessageList messages = {this.state.messages}/>
-      <ChatBar addMessage= {this.addMessage} currentUser= {this.state.currentUser.name}/>
+      <ChatBar addMessage= {this.addMessage} changeUser = {this.changeUser} currentUser= {this.state.currentUser.name}/>
       </div>
       );
       
