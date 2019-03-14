@@ -38,21 +38,24 @@ class App extends Component {
   
   changeUser = (event) =>{
       const oldUser = this.state.currentUser.name
-      const newUser = event.target.value
+      const newUser = event.target.value ? event.target.value: "Anonymous" 
+      
       const newUserName = {name:newUser}
       this.setState({currentUser: newUserName})
-      const newNotification = {
-        type: "postNotification",
-        content: `${oldUser} has changed their name to ${newUser}`
+      if (oldUser !== newUser){
+        const newNotification = {
+          type: "postNotification",
+          content: `${oldUser} has changed their name to ${newUser}`
+        }
+        this.socket.send(JSON.stringify(newNotification));
+        
       }
-      this.socket.send(JSON.stringify(newNotification));
+     
   }
   addMessage = (event) =>{
 
     if (event.key === "Enter"){
       let messages = this.state.messages
-      const newUser = event.target.value
-      const newUserName = {name:newUser}
       const newMessage = {
         type:"postMessage",
         username: this.state.currentUser.name,

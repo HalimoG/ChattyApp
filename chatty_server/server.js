@@ -25,6 +25,8 @@ wss.on('connection', (ws) => {
     var data =JSON.parse(data)
 
     if (data.type === "postMessage"){
+    
+      data.username? data.username : "Anonymous"
       data.id= uuid.v4();
       data.type = "incomingMessage "
       wss.clients.forEach(function (client){
@@ -33,6 +35,7 @@ wss.on('connection', (ws) => {
    
     }
     else if (data.type === "postNotification"){
+      data.username? data.username : "Anonymous"
       data.id= uuid.v4();
       data.type = "incomingNotification"
       wss.clients.forEach(function (client){
