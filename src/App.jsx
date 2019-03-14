@@ -15,7 +15,8 @@ class App extends Component {
     this.state = {
       loading: true,
       currentUser: {name: "Anonymous"}, 
-      messages: []
+      messages: [],
+      counter: 0
                     }
                   }    
 
@@ -30,7 +31,12 @@ class App extends Component {
     this.setState({ messages: [...this.state.messages, message] })
 
   });
+  this.socket.addEventListener('on', (event) => {
+    let counter = JSON.parse(event.data)
+    console.log('received counter...', counter);
+    this.setState({ counter: counter })
 
+  });
 
     console.log("componentDidMount <App />");
 
@@ -38,7 +44,7 @@ class App extends Component {
   
   changeUser = (event) =>{
       const oldUser = this.state.currentUser.name
-      const newUser = event.target.value ? event.target.value: "Anonymous" 
+      const newUser = event.target.value ? event.target.value:"Anonymous" 
       
       const newUserName = {name:newUser}
       this.setState({currentUser: newUserName})

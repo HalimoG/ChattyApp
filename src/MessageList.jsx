@@ -1,4 +1,5 @@
 import React, {Component} from 'react';
+
 function Message(prop) {
   return ( 
     <div>
