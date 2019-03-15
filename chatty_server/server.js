@@ -34,7 +34,6 @@ wss.on('connection', (ws) => {
    
     }
     else if (data.type === "postNotification"){
-      data.username? data.username : "Anonymous"
       data.id= uuid.v4();
       data.type = "incomingNotification"
       wss.clients.forEach(function (client){
