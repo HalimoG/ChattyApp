@@ -21,22 +21,21 @@ class App extends Component {
                   }    
 
   socket = new WebSocket('ws://localhost:3001')
+  
   componentDidMount() {
-  this.socket.onopen = () =>{
-    console.log('server connected')
-  }
-  this.socket.addEventListener('message', (event) => {
-    let message = JSON.parse(event.data)
-    console.log('received message...', message);
-    this.setState({ messages: [...this.state.messages, message] })
+    this.socket.onopen = () =>{
+      console.log('server connected')
+    }
+    this.socket.addEventListener('message', (event) => {
+      if(!isNaN(event.data)){
+        this.setState({counter: event.data}) 
+      }
+      let message = JSON.parse(event.data)
+     this.setState({ messages: [...this.state.messages, message] })
 
-  });
-  this.socket.addEventListener('on', (event) => {
-    let counter = JSON.parse(event.data)
-    console.log('received counter...', counter);
-    this.setState({ counter: counter })
+    });
+  
 
-  });
 
     console.log("componentDidMount <App />");
 
@@ -76,7 +75,7 @@ class App extends Component {
    
       return (
       <div>
-      <NavBar/>
+      <NavBar counter = {this.state.counter}/>
       <MessageList messages = {this.state.messages}/>
       <ChatBar addMessage= {this.addMessage} changeUser = {this.changeUser} currentUser= {this.state.currentUser.name}/>
       </div>

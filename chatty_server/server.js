@@ -24,10 +24,9 @@ wss.on('connection', (ws) => {
   console.log('Client connected');
   counter++
   wss.clients.forEach(function (client){
-    client.send(
-      JSON.stringify(counter)
-      )
+    client.send(JSON.stringify(counter))
   })
+
   ws.on('message',(data) =>{
 
     var data =JSON.parse(data)
@@ -54,19 +53,15 @@ wss.on('connection', (ws) => {
       
 });
   
-  
-  
- 
+
 
 
   // Set up a callback for when a client closes the socket. This usually means they closed their browser.
   ws.on('close', () => {
-    counter --
-    wss.clients.forEach(function (client){
-      client.send(
-        JSON.stringify(counter)
-        )
-    })
+  counter--
+  wss.clients.forEach(function (client){
+    client.send(JSON.stringify(counter))
+  })
     console.log('Client disconnected');
   });
 });
