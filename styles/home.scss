@@ -7,7 +7,7 @@ body {
 }
 
 .chatbar {
-  background: tomato;
+  background:#4ba0eb;
   border-top: 1px solid black;
   bottom: 0;
   display: flex;
@@ -62,7 +62,7 @@ body {
 }
 
 .navbar {
-  background: tomato;
+  background: #4ba0eb;
   border-bottom: 1px solid black;
   height: 60px;
   left: 0;
@@ -73,7 +73,7 @@ body {
 }
 
 .navbar-brand {
-  color: inherit;
+  color: white;
   display: block;
   float: left;
   font-weight: 700;
@@ -82,4 +82,13 @@ body {
   line-height: 60px;
   padding: 0 10px;
   text-decoration: none;
+}
+
+.alert {
+  padding: 15px;
+  background-color: #21c256;
+  color: white;
+  margin-bottom: 15px;
+  width: 30%;
+  margin-left:10px;
 }

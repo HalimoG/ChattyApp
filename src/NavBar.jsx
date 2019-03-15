@@ -4,7 +4,6 @@ const spanStyle = {
     margin: '20px'
 }
 
-
 function NavBar(props){ 
     var user =props.counter > 1? "users":"user"
     return (
@@ -16,6 +15,5 @@ function NavBar(props){
 
     )
 }
-
 
 export default NavBar

@@ -1,5 +1,6 @@
 import React, {Component} from 'react';
-function Message(prop) {
+
+function Message (prop){
   return ( 
     <div>
       <div className="message">
@@ -7,13 +8,15 @@ function Message(prop) {
       <span className="message-content">{prop.message.content}</span>
      </div>
     </div>)
+
 }
+
 
 function Notification(prop) {
   return ( 
     <div>
-      <div className="notification">
-      <span className="notification-content">{prop.message.content}</span>
+      <div className = 'alert'>
+      <span>{prop.message.content}</span>
     </div>
     </div>)
 }

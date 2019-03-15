@@ -3,48 +3,39 @@ import NavBar from "./NavBar.jsx";
 import ChatBar from "./ChatBar.jsx";
 import MessageList from "./MessageList.jsx";
 
-
-
-
 class App extends Component {
-
-
   constructor() {
     super();
-    // this is the *only* time you should assign directly to state:
     this.state = {
       loading: true,
       currentUser: {name: "Anonymous"}, 
       messages: [],
       counter: 0
-                    }
-                  }    
+    }
+  }    
 
-  socket = new WebSocket('ws://localhost:3001')
+ 
   
   componentDidMount() {
+    this.socket = new WebSocket('ws://localhost:3001')
     this.socket.onopen = () =>{
       console.log('server connected')
     }
+    
     this.socket.addEventListener('message', (event) => {
-      if(!isNaN(event.data)){
-        this.setState({counter: event.data}) 
-      }
       let message = JSON.parse(event.data)
-     this.setState({ messages: [...this.state.messages, message] })
-
+      if(message.type === "counter"){
+        this.setState({counter:message.data}) 
+      }
+      else{
+        this.setState({ messages: [...this.state.messages, message] })
+      }
     });
-  
-
-
-    console.log("componentDidMount <App />");
-
   }
   
   changeUser = (event) =>{
       const oldUser = this.state.currentUser.name
       const newUser = event.target.value ? event.target.value:"Anonymous" 
-      
       const newUserName = {name:newUser}
       this.setState({currentUser: newUserName})
       if (oldUser !== newUser){
@@ -57,14 +48,15 @@ class App extends Component {
       }
      
   }
-  addMessage = (event) =>{
 
-    if (event.key === "Enter"){
+  addMessage = (event) =>{
+    let textInput =  event.target.value
+    if (event.key === "Enter" && textInput){
       let messages = this.state.messages
       const newMessage = {
         type:"postMessage",
         username: this.state.currentUser.name,
-        content: event.target.value,
+        content: textInput,
        }
        this.socket.send(JSON.stringify(newMessage));
        event.target.value = "";
@@ -75,9 +67,9 @@ class App extends Component {
    
       return (
       <div>
-      <NavBar counter = {this.state.counter}/>
-      <MessageList messages = {this.state.messages}/>
-      <ChatBar addMessage= {this.addMessage} changeUser = {this.changeUser} currentUser= {this.state.currentUser.name}/>
+        <NavBar counter = {this.state.counter}/>
+        <MessageList messages = {this.state.messages}/>
+        <ChatBar addMessage= {this.addMessage} changeUser = {this.changeUser} currentUser= {this.state.currentUser.name}/>
       </div>
       );
       
