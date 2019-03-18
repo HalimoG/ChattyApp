@@ -21,9 +21,12 @@ function Notification(prop) {
     </div>)
 }
 
+
+ //depending on message type render notification component or message component
 class MessageList extends Component {
       
     render(){
+     
       const message = this.props.messages.map((message) =>{
           if( message.type === "incomingNotification"){
             return <Notification key={message.id}  message= {message}/>

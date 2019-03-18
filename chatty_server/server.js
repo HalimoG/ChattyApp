@@ -12,15 +12,15 @@ const server = express()
   .listen(PORT, '0.0.0.0', 'localhost', () => console.log(`Listening on ${ PORT }`));
 
 const wss = new SocketServer({ server });
-var counter = 0;
 
 wss.on('connection', (ws) => {
   console.log('Client connected');
-  counter++
+//count how many users are connected and broadcast to all clients
   wss.clients.forEach(function (client){
-    client.send(JSON.stringify({type:'counter', data: counter}))
+    client.send(JSON.stringify({type:'counter', data:  wss.clients.size}))
   })
 
+  //listening for message from client, change message type and include id and send back message
   ws.on('message',(data) =>{
 
     var data =JSON.parse(data)
@@ -47,10 +47,7 @@ wss.on('connection', (ws) => {
   });
   
   ws.on('close', () => {
-    counter--
-    wss.clients.forEach(function (client){
-      client.send(JSON.stringify({type:'counter', data: counter}))
-    })
+  
     console.log('Client disconnected');
   });
 });

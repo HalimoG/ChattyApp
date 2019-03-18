@@ -15,13 +15,13 @@ class App extends Component {
   }    
 
  
-  
+  //initiate websocket client connection 
   componentDidMount() {
     this.socket = new WebSocket('ws://localhost:3001')
     this.socket.onopen = () =>{
       console.log('server connected')
     }
-    
+    //listen for messages from server and set state dependaing on the type of message sent back
     this.socket.addEventListener('message', (event) => {
       let message = JSON.parse(event.data)
       if(message.type === "counter"){
@@ -32,7 +32,8 @@ class App extends Component {
       }
     });
   }
-  
+  //event handler methods passed down as props to child components
+  // eventhandler function that will changeuser name on blur
   changeUser = (event) =>{
       const oldUser = this.state.currentUser.name
       const newUser = event.target.value ? event.target.value:"Anonymous" 
@@ -48,7 +49,7 @@ class App extends Component {
       }
      
   }
-
+//event handler function that will add a message on enter
   addMessage = (event) =>{
     let textInput =  event.target.value
     if (event.key === "Enter" && textInput){
