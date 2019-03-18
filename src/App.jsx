@@ -25,6 +25,7 @@ class App extends Component {
     this.socket.addEventListener('message', (event) => {
       let message = JSON.parse(event.data)
       if(message.type === "counter"){
+        console.log(message.data)
         this.setState({counter:message.data}) 
       }
       else{
